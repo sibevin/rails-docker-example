@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  db-server:
+    image: mysql:8.0.26
+    environment:
+      MYSQL_ROOT_PASSWORD: 123qwe
+      MYSQL_USER: mysql_user
+      MYSQL_PASSWORD: mysql_pw
+      MYSQL_DATABASE: mysql_db
+    volumes:
+      - demo-db:/var/lib/mysql
+    ports:
+      - "8000:3306"
+    cap_add:
+      - SYS_NICE
+networks:
+  default:
+    name: demo-network
+volumes:
+  demo-db:
