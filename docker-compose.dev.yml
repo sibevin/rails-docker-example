@@ -7,7 +7,10 @@ services:
       MYSQL_USER: mysql_user
       MYSQL_PASSWORD: mysql_pw
       MYSQL_DATABASE: mysql_db
+      MYSQL_TEST_USER: mysql_test_user
+      MYSQL_TEST_PASSWORD: mysql_test_pw
     volumes:
+      - ./.docker/setup_test_db.sh:/docker-entrypoint-initdb.d/00_setup_test_db.sh
       - demo-db:/var/lib/mysql
     ports:
       - "8000:3306"
