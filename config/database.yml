@@ -18,8 +18,8 @@ test:
   database: mysql_test_db
   username: mysql_test_user
   password: mysql_test_pw
-  host: 0.0.0.0
-  port: 8000
+  host: <%= ENV['DB_TEST_HOST'] %>
+  port: <%= ENV['DB_TEST_PORT'] %>
   idle_timeout: 0
 
 production:

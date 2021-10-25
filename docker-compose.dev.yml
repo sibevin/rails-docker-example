@@ -20,6 +20,35 @@ services:
     image: redis:6.0.6-alpine
     ports:
       - "8001:6379"
+  web-prod:
+    build: .
+    image: demo-app:prod
+    depends_on:
+      - db-server
+      - redis-server
+    environment:
+      DATABASE_URL: mysql2://mysql_user:mysql_pw@db-server:3306/mysql_db
+      REDIS_URL: redis://redis-server:6379
+    ports:
+      - "8080:80"
+    command: sh -c "sleep 30 && bin/rails db:migrate db:seed && foreman start"
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: demo-app:dev
+    depends_on:
+      - db-server
+      - redis-server
+    environment:
+      DATABASE_URL: mysql2://mysql_user:mysql_pw@db-server:3306/mysql_db
+      REDIS_URL: redis://redis-server:6379
+      DB_TEST_HOST: db-server
+      DB_TEST_PORT: 3306
+    volumes:
+      - ./:/app
+    ports:
+      - "8081:80"
 networks:
   default:
     name: demo-network
